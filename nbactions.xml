@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>rebuild</actionName>
+            <packagings>
+                <packaging>*</packaging>
+            </packagings>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+                
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-clean and run</actionName>
+            <displayName>clean and run</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+                <goal>wildfly:run</goal>
+            </goals>
+        </action>
+    </actions>

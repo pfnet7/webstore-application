@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.UserMapper">
+ <!--   
+    <resultMap type="User" id="UserResult">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="password," column="password,"></result>
+        <result property="emailAddress)" column="emailAddress)"></result>
+    </resultMap>
+-->
+
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true">
+        INSERT INTO public."user" (username, password, email_address)
+        VALUES (#{username}, #{password}, #{email_address});
+    </insert>
+    
+    <select id="getUserByName" resultType="User">
+        SELECT * FROM public."user" WHERE username = #{name};
+    </select>
+    
+    <delete id="deleteAll" >
+        DELETE FROM public."user";
+        ALTER SEQUENCE user_id_seq RESTART;
+    </delete>
+    
+</mapper>
