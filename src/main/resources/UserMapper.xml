@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="com.webstoreapp.mybatis.UserMapper">
- <!--
+ <!--   
     <resultMap type="User" id="UserResult">
         <id property="id" column="id"></id>
         <result property="username" column="username"></result>
@@ -12,12 +12,12 @@
 -->
 
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true">
-        INSERT INTO public."user" (username, password, email_address)
-        VALUES (#{username}, #{password}, #{emailAddress});
+        INSERT INTO public."user" (username, password_hash, email_address)
+        VALUES (#{username}, #{passwordHash}, #{emailAddress});
     </insert>
 
     <select id="getUserByName" resultType="User">
-        SELECT username, password, email_address FROM public."user" WHERE username = #{name};
+        SELECT username, password_hash, email_address, is_admin FROM public."user" WHERE username = #{username};
     </select>
 
     <delete id="deleteAll" >
