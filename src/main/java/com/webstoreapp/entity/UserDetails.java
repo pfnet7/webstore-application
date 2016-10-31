@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.entity;
+package com.webstoreapp.entity;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -38,7 +38,7 @@ public class UserDetails {
 
     @Override
     public String toString() {
-        return String.format("com.entity.UserDetails[ id=%d, firstName=%s, "
+        return String.format("com.webstoreapp.entity.UserDetails[ id=%d, firstName=%s, "
                 + "lastName=%s, countryName=%s, cityName=%s, streetName=%s, "
                 + "phoneNumber=%s, zipCode=%s, stateName=%s ]",
                 id, firstName, lastName, countryName, cityName, streetName,

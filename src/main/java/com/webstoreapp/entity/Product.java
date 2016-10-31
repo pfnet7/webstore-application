@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.entity;
+package com.webstoreapp.entity;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -33,7 +33,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("com.entity.Product[ id=%d, name=%s, price=%d", id, name, price);
+        return String.format("com.webstoreapp.entity.Product[ id=%d, name=%s, price=%d", id, name, price);
     }
     
 }

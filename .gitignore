@@ -1,2 +1,5 @@
-src/main/resources/database.properties
+database.properties
 target/
+.idea/
+classes/
+*.iml
