@@ -6,15 +6,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import java.security.SecureRandom;
-import java.util.Random;
-
 @Getter
 @ToString
 @RequiredArgsConstructor
 public class User {
-
-    private static final Random RANDOM = new SecureRandom();
 
     @NonNull
     private String username;
@@ -31,7 +26,7 @@ public class User {
     
     private boolean isAdmin;
 
-    public User(String username, String passwordHash, String emailAddress, boolean isAdmin) {
+    public User(String username, String passwordHash, String emailAddress, Boolean isAdmin) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.emailAddress = emailAddress;
