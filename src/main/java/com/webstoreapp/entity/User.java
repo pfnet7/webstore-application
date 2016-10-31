@@ -1,5 +1,8 @@
 package com.webstoreapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.webstoreapp.error.InvalidEntityException;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 @Getter
 @ToString
 @RequiredArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
     @NonNull
@@ -21,10 +25,10 @@ public class User {
     private String passwordHash;
     @NonNull
     private String emailAddress;
-    
+
     private UserData userData;
-    
-    private boolean isAdmin;
+
+    private Boolean isAdmin;
 
     public User(String username, String passwordHash, String emailAddress, Boolean isAdmin) {
         this.username = username;
@@ -40,7 +44,7 @@ public class User {
     }
 
     public void generatePasswordHash() {
-        passwordHash = BCrypt.hashpw(password, BCrypt.gensalt(12));
+        passwordHash = BCrypt.hashpw(password, BCrypt.gensalt(11));
     }
 
     public boolean isUserPassword(String password) {

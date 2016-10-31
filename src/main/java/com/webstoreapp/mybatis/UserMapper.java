@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.mybatis;
+package com.webstoreapp.mybatis;
 
-import com.entity.User;
+import com.webstoreapp.entity.User;
 
-/**
- *
- * @author Nomysz
- */
 public interface UserMapper {
     
     void insertUser(User user);
