@@ -1,29 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.webstoreapp.entity;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-/**
- *
- * @author Nomysz
- */
 @Getter
 @ToString
+@NoArgsConstructor
 public class Offer {
 
-    public enum condition {
-        NEW, USED
+    private String title;
+    private String description;
+    private String imgPath;
+    private String category;
+    private BigDecimal price;
+    private Integer userId;
+    private Condition condition;
+
+    public Offer(String title, String description, String imgPath, String category, BigDecimal price, Integer userId, String condition) {
+        this.title = title;
+        this.description = description;
+        this.imgPath = imgPath;
+        this.category = category;
+        this.price = price;
+        this.userId = userId;
+        this.condition = Condition.valueOf(condition);
     }
 
-    private String title;
-    private BigInteger price;
-    private String description;
-    private String img_path;
+    private enum Condition {
+        NEW, USED
+    }
 
 }

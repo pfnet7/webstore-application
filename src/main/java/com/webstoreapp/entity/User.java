@@ -1,8 +1,6 @@
 package com.webstoreapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.webstoreapp.error.InvalidEntityException;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
@@ -18,11 +16,13 @@ public class User {
     @NonNull
     private String username;
 
-    @Getter(AccessLevel.NONE)
     @NonNull
+    @Getter(AccessLevel.NONE)
     private String password;
+
     @Getter(AccessLevel.NONE)
     private String passwordHash;
+
     @NonNull
     private String emailAddress;
 

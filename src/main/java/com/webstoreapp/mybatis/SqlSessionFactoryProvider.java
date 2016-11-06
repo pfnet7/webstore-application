@@ -22,7 +22,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 @Startup
 @Singleton
 public class SqlSessionFactoryProvider {
-    
+
     @Produces
     @ApplicationScoped
     public SqlSessionFactory produceFactory() throws IOException {
@@ -31,5 +31,5 @@ public class SqlSessionFactoryProvider {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         return sqlSessionFactory;
     }
-    
+
 }
