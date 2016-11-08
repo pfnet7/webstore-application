@@ -5,11 +5,11 @@
 
     <insert id="insertOffer" parameterType="Offer" useGeneratedKeys="true">
         INSERT INTO public.offer (title, price, description, category, img_path, condition, user_id)
-        VALUES (#{title}, #{price}, #{description}, #{category}, #{imgPath}, #{condition}::condition_enum, #{userId});
+        VALUES (#{title}, #{price}, #{description}, #{category}::category_enum, #{imgPath}, #{condition}::condition_enum, #{userId});
     </insert>
 
     <select id="selectOfferById" parameterType="Long" resultType="Offer">
-        SELECT title, description, img_path, price, user_id, condition::text FROM public.offer WHERE id = #{id};
+        SELECT title, description, img_path, category::text, price, user_id, condition::text FROM public.offer WHERE id = #{id};
     </select>
 
     <update id="updateOffer" parameterType="map">
@@ -18,6 +18,7 @@
         price = #{offer.price},
         description = #{offer.description},
         img_path = #{offer.imgPath},
+        category = #{offer.category}::category_enum,
         condition = #{offer.condition}::condition_enum,
         user_id = #{offer.userId}
         WHERE id = #{id};

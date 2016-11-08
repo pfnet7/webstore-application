@@ -5,9 +5,6 @@ import com.webstoreapp.error.ErrorResponse;
 import com.webstoreapp.error.InvalidEntityException;
 import com.webstoreapp.mybatis.UserService;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +21,6 @@ import javax.ws.rs.core.Response;
 @Path("/user")
 public class UserController {
 
-    Logger logger = LogManager.getLogger(UserController.class);
-
     @Inject
     private UserService userService;
 
@@ -34,7 +29,6 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createUser(User user) throws ServletException {
-        logger.info(user);
 
         try {
             user.validate();
