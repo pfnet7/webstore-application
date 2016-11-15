@@ -1,5 +1,6 @@
 package com.webstoreapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
 
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Offer {
 
     private String title;

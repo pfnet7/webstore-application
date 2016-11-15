@@ -1,7 +1,9 @@
 package com.webstoreapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.*;
 import com.webstoreapp.error.InvalidEntityException;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -12,6 +14,15 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 @RequiredArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
+
+    @Getter(lazy = false)
+    @JsonProperty("_links")
+    private List<Link> links = new ArrayList<>();
+
+    public User addLink(String rel, String href) {
+        this.links.add(new Link(rel, href));
+        return this;
+    }
 
     @NonNull
     private String username;

@@ -3,8 +3,11 @@ package com.webstoreapp;
 import com.webstoreapp.entity.Offer;
 import com.webstoreapp.error.ErrorResponse;
 import com.webstoreapp.mybatis.OfferService;
+import io.swagger.annotations.Api;
+
+import java.util.Optional;
+
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Api
 @Path("/offer")
 public class OfferController {
 
@@ -34,8 +38,13 @@ public class OfferController {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOfferById(@PathParam("id") Long id) {
-        Offer outputOffer = offerService.getOfferById(id);
-        return Response.ok(outputOffer).build();
+        Optional<Offer> outputOffer = Optional.ofNullable(offerService.getOfferById(id));
+
+        if (!outputOffer.isPresent()) {
+            return ErrorResponse.buildNotFoundResponse();
+        }
+
+        return Response.ok(outputOffer.get()).build();
     }
 
     @PUT
@@ -43,11 +52,10 @@ public class OfferController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateOffer(@PathParam("id") Long id, Offer newOffer) {
-        Offer offer = offerService.getOfferById(id);
+        Optional<Offer> offer = Optional.ofNullable(offerService.getOfferById(id));
 
-        if (offer == null) {
-            ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_NOT_FOUND, "Offer not found");
-            return Response.status(HttpServletResponse.SC_NOT_FOUND).entity(errorResponse).build();
+        if (!offer.isPresent()) {
+            return ErrorResponse.buildNotFoundResponse();
         }
 
         Offer updatedOffer = offerService.updateOffer(id, newOffer);
@@ -58,11 +66,10 @@ public class OfferController {
     @DELETE
     @Path("{id}")
     public Response deleteOffer(@PathParam("id") Long id) {
-        Offer offer = offerService.getOfferById(id);
+        Optional<Offer> offer = Optional.ofNullable(offerService.getOfferById(id));
 
-        if (offer == null) {
-            ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_NOT_FOUND, "Offer not found");
-            return Response.status(HttpServletResponse.SC_NOT_FOUND).entity(errorResponse).build();
+        if (!offer.isPresent()) {
+            return ErrorResponse.buildNotFoundResponse();
         }
 
         offerService.deleteOfferById(id);
