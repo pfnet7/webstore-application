@@ -14,6 +14,8 @@
     <typeAliases>
         <typeAlias type="com.webstoreapp.entity.User" alias="User"></typeAlias>
         <typeAlias type="com.webstoreapp.entity.Offer" alias="Offer"></typeAlias>
+        <typeAlias type="com.webstoreapp.entity.Order" alias="Order"></typeAlias>
+        <typeAlias type="com.webstoreapp.entity.UserData" alias="UserData"></typeAlias>
     </typeAliases>
 
     <environments default="development">
@@ -31,6 +33,7 @@
     <mappers>
         <mapper resource="UserMapper.xml" />
         <mapper resource="OfferMapper.xml" />
+        <mapper resource="OrderMapper.xml" />
     </mappers>
 
 </configuration>

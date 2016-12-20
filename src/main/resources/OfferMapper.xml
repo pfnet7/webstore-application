@@ -8,7 +8,7 @@
         VALUES (#{title}, #{price}, #{description}, #{category}::category_enum, #{imgPath}, #{condition}::condition_enum, #{userId});
     </insert>
 
-    <select id="selectOfferById" parameterType="Long" resultType="Offer">
+    <select id="selectOfferById" parameterType="Integer" resultType="Offer">
         SELECT title, description, img_path, category::text, price, user_id, condition::text FROM public.offer WHERE id = #{id};
     </select>
 
@@ -24,7 +24,7 @@
         WHERE id = #{id};
     </update>
 
-    <delete id="deleteOfferById">
+    <delete id="deleteOfferById" parameterType="Integer">
         DELETE FROM public.offer WHERE id = #{id};
     </delete>
 

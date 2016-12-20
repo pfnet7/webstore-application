@@ -2,40 +2,58 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="com.webstoreapp.mybatis.UserMapper">
- <!--
-    <resultMap type="User" id="UserResult">
-        <id property="id" column="id"></id>
-        <result property="username" column="username"></result>
-        <result property="password," column="password,"></result>
-        <result property="emailAddress)" column="emailAddress)"></result>
-    </resultMap>
--->
 
-    <insert id="insertUser" parameterType="User" useGeneratedKeys="true">
-        INSERT INTO public."user" (username, password_hash, email_address)
-        VALUES (#{username}, #{passwordHash}, #{emailAddress});
+    <resultMap id="userResultMap" type="User">
+        <id property="id" column="id" />
+        <result column="username" property="username" />
+        <result column="password_hash" property="passwordHash" />
+        <result column="email_address" property="emailAddress" />
+        <result column="is_admin" property="isAdmin" />
+        <association property="userData" column="id" javaType="UserData" select="selectUserDataByUserId" />
+    </resultMap>
+
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO public."user" (username, password_hash, email_address, is_admin)
+        VALUES (#{username}, #{passwordHash}, #{emailAddress}, #{isAdmin});
     </insert>
 
-    <select id="selectUserByName" resultType="User">
-        SELECT username, password_hash, email_address, is_admin FROM public."user" WHERE username = #{username};
+    <select id="selectUserByUsername" resultMap="userResultMap">
+        SELECT * FROM public."user" WHERE username = #{username};
     </select>
 
-    <select id="selectUserById" parameterType="Long" resultType="User">
-        SELECT username, password_hash, email_address, is_admin FROM public."user" WHERE id = #{id};
+    <select id="selectUserById" parameterType="Integer" resultMap="userResultMap">
+        SELECT * FROM public."user" WHERE id = #{id};
     </select>
 
-    <update id="updateUser" parameterType="map">
+    <update id="updateUser">
         UPDATE public."user" SET
         username = #{user.username},
         password_hash = #{user.passwordHash},
         email_address = #{user.emailAddress},
         is_admin = #{user.isAdmin}
-        WHERE id = #{id};
+        WHERE username = #{username};
     </update>
 
-    <delete id="deleteAll" >
-        DELETE FROM public."user";
-        ALTER SEQUENCE user_id_seq RESTART;
-    </delete>
+    <insert id="insertUserData" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO public.user_data (user_id) VALUES (#{userId});
+    </insert>
+
+    <select id="selectUserDataByUserId" resultType="UserData">
+        SELECT name, surname, street_name, house_number, appartment_number, post_code, city_name, country_name
+        FROM public.user_data WHERE user_id = #{userId};
+    </select>
+
+    <update id="updateUserData" parameterType="UserData">
+        UPDATE public.user_data SET
+        name = #{userData.name},
+        surname = #{userData.surname},
+        street_name = #{userData.streetName},
+        house_number = #{userData.houseNumber},
+        appartment_number = #{userData.appartmentNumber},
+        post_code = #{userData.postCode},
+        city_name = #{userData.cityName},
+        country_name = #{userData.countryName}
+        WHERE user_id = (select id from public."user" where username = #{username});
+    </update>
 
 </mapper>

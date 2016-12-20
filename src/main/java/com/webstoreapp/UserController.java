@@ -1,10 +1,12 @@
 package com.webstoreapp;
 
+import com.webstoreapp.authentication.Secured;
 import com.webstoreapp.entity.User;
+import com.webstoreapp.entity.UserData;
 import com.webstoreapp.error.ErrorResponse;
 import com.webstoreapp.error.InvalidEntityException;
 import com.webstoreapp.mybatis.UserService;
-import io.swagger.annotations.Api;
+// import io.swagger.annotations.Api;
 
 import java.net.URI;
 
@@ -23,7 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-@Api
+// @Api
 @Path("/user")
 public class UserController {
 
@@ -43,16 +45,23 @@ public class UserController {
         } catch (InvalidEntityException e) {
             return ErrorResponse.buildBadRequestResponse(e.getMessage());
         }
+        userService.createUser(user);
+        userService.createUserData(user.getId());
 
-        User outputUser = userService.createUser(user);
-        return Response.ok(outputUser).build();
+        String requestUri = uriInfo.getRequestUri().toString();
+        String selfUri = requestUri + user.getUsername();
+        String detailsUri = requestUri + "details";
+
+        user.addLink("self", selfUri).addLink("details", detailsUri);
+
+        return Response.ok(user).build();
     }
 
     @GET
-    @Path("{id}")
+    @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUserById(@PathParam("id") Long id) {
-        Optional<User> outputUser = Optional.ofNullable(userService.getUserById(id));
+    public Response getUserById(@PathParam("username") String username) {
+        Optional<User> outputUser = Optional.ofNullable(userService.getUserByUsername(username));
 
         if (!outputUser.isPresent()) {
             return ErrorResponse.buildNotFoundResponse();
@@ -60,25 +69,47 @@ public class UserController {
 
         User user = outputUser.get();
 
-        URI selfUri = uriInfo.getRequestUri();
-        user.addLink("self", selfUri.toString());
+        String requestUri = uriInfo.getRequestUri().toString();
+        String detailsUri = requestUri + "details";
+
+        user.addLink("self", requestUri).addLink("details", detailsUri);
 
         return Response.ok(user).build();
     }
 
     @PUT
-    @Path("{id}")
+    @Secured
+    @Path("{username}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateUser(@PathParam("id") Long id, User newUser) {
-        Optional<User> user = Optional.ofNullable(userService.getUserById(id));
+    public Response updateUser(@PathParam("username") String username, User newUser) {
+        Optional<User> user = Optional.ofNullable(userService.getUserByUsername(username));
 
         if (!user.isPresent()) {
             return ErrorResponse.buildNotFoundResponse();
         }
 
-        User updatedUser = userService.updateUser(id, newUser);
+        User updatedUser = userService.updateUser(username, newUser);
+
+        String requestUri = uriInfo.getRequestUri().toString();
+        String detailsUri = requestUri + "details";
+
+        user.get().addLink("self", requestUri).addLink("details", detailsUri);
+
         return Response.ok(updatedUser).build();
+    }
+
+    @PUT
+    @Secured
+    @Path("{username}/details")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUserData(@PathParam("username") String username, UserData newUserData) {
+
+        userService.updateUserData(username, newUserData);
+        newUserData.addLink("self", uriInfo.getAbsolutePath().toString());
+        return Response.ok(newUserData).build();
+
     }
 
 }

@@ -1,9 +1,8 @@
 package com.webstoreapp.mybatis;
 
-import javax.inject.Inject;
-
 import com.webstoreapp.entity.User;
-import org.apache.ibatis.annotations.Param;
+import com.webstoreapp.entity.UserData;
+import javax.inject.Inject;
 import org.mybatis.cdi.Mapper;
 
 public class UserService {
@@ -18,14 +17,30 @@ public class UserService {
         return user;
     }
 
-    public User getUserById(Long id) {
-        return userMapper.selectUserById(id);
+    public User getUserByUsername(String username) {
+        return userMapper.selectUserByUsername(username);
     }
 
-    public User updateUser(@Param("id") Long id, User newUser) {
+    public User getUserById(Integer userId) {
+        return userMapper.selectUserById(userId);
+    }
+
+    public User updateUser(String username, User newUser) {
         newUser.generatePasswordHash();
-        userMapper.updateUser(id, newUser);
+        userMapper.updateUser(username, newUser);
         return newUser;
+    }
+
+    public void createUserData(Integer userid) {
+        userMapper.insertUserData(userid);
+    }
+
+    public void updateUserData(String username, UserData newUserData) {
+        userMapper.updateUserData(username, newUserData);
+    }
+
+    public UserData getUserDataByUserId(Integer userId) {
+        return userMapper.selectUserDataByUserId(userId);
     }
 
 }

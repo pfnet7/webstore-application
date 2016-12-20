@@ -16,16 +16,16 @@ public class OfferService {
         return offer;
     }
 
-    public Offer getOfferById(Long id) {
+    public Offer getOfferById(Integer id) {
         return offerMapper.selectOfferById(id);
     }
 
-    public Offer updateOffer(Long id, Offer offer) {
+    public Offer updateOffer(Integer id, Offer offer) {
         offerMapper.updateOffer(id, offer);
         return offer;
     }
 
-    public void deleteOfferById(Long id) {
+    public void deleteOfferById(Integer id) {
         offerMapper.deleteOfferById(id);
     }
 

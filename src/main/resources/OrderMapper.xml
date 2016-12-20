@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.webstoreapp.mybatis.OrderMapper">
+
+    <resultMap id="orderResultMap" type="Order">
+        <id property="id" column="id" />
+        <result property="status" column="status" />
+        <association property="offer" column="offer_id" javaType="Offer" select="selectOfferById" />
+        <association property="user" column="user_id" javaType="User" select="selectUserById" />
+        <association property="userData" column="user_id" javaType="UserData" select="selectUserDataByUserId" />
+    </resultMap>
+
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO public."order" (offer_id, user_id, status)
+        VALUES (#{offer_id}, #{user_id}, #{status}::status_enum);
+    </insert>
+
+    <select id="selectOrderById" parameterType="Integer" resultMap="orderResultMap">
+        SELECT * FROM public."order" (offer_id, user_id, status)
+        WHERE id = #{id};
+    </select>
+
+    <select id="selectOrder" resultMap="orderResultMap">
+        SELECT * FROM public."order" (offer_id, user_id, status)
+        WHERE offer_id = #{offer_id} AND user_id = #{user_id} AND status = #{status};
+    </select>
+
+    <delete id="deleteOrder" parameterType="Integer"></delete>
+
+</mapper>

@@ -1,7 +1,11 @@
 package com.webstoreapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +16,18 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Offer {
+
+    @Getter(lazy = false)
+    @JsonProperty("_links")
+    private List<Link> links = new ArrayList<>();
+
+    public Offer addLink(String rel, String href) {
+        this.links.add(new Link(rel, href));
+        return this;
+    }
+
+    @JsonIgnore
+    private Integer id;
 
     private String title;
     private String description;

@@ -7,10 +7,10 @@ public interface OfferMapper {
 
     void insertOffer(Offer offer);
 
-    Offer selectOfferById(Long id);
+    Offer selectOfferById(Integer id);
 
-    void updateOffer(@Param("id") Long id, @Param("offer") Offer offer);
+    void updateOffer(@Param("id") Integer id, @Param("offer") Offer offer);
 
-    void deleteOfferById(Long id);
+    void deleteOfferById(Integer id);
 
 }

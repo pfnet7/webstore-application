@@ -11,8 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Getter
 @ToString
+@NoArgsConstructor
 @RequiredArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class User {
 
     @Getter(lazy = false)
@@ -23,6 +24,9 @@ public class User {
         this.links.add(new Link(rel, href));
         return this;
     }
+
+    @JsonIgnore
+    private Integer id;
 
     @NonNull
     private String username;
@@ -41,11 +45,13 @@ public class User {
 
     private Boolean isAdmin;
 
-    public User(String username, String passwordHash, String emailAddress, Boolean isAdmin) {
+    public User(Integer id, String username, String passwordHash, String emailAddress, Boolean isAdmin, UserData userData) {
+        this.id = id;
         this.username = username;
         this.passwordHash = passwordHash;
         this.emailAddress = emailAddress;
         this.isAdmin = isAdmin;
+        this.userData = userData;
     }
 
     public void validate() throws InvalidEntityException {

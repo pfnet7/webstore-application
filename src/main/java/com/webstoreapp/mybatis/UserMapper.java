@@ -1,18 +1,23 @@
 package com.webstoreapp.mybatis;
 
 import com.webstoreapp.entity.User;
+import com.webstoreapp.entity.UserData;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
 
     void insertUser(User user);
 
-    User selectUserById(Long id);
+    User selectUserByUsername(String username);
 
-    User selectUserByName(String name);
+    User selectUserById(Integer userId);
 
-    void updateUser(@Param("id") Long id, @Param("user") User user);
+    void updateUser(@Param("username") String username, @Param("user") User user);
 
-    void deleteAll();
+    void insertUserData(Integer userId);
+
+    void updateUserData(@Param("username") String username, @Param("userData") UserData userData);
+
+    UserData selectUserDataByUserId(Integer userId);
 
 }
